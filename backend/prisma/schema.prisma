@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id        String   @id @default(uuid()) // Mantemos o usuário como UUID (padrão de segurança para Auth)
+  email     String   @unique
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  todos     Todo[]
+
+  @@map("users")
+}
+
+model Todo {
+  id          Int       @id @default(autoincrement())
+  userId      String
+  title       String
+  completed   Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  completedAt DateTime? // <-- ADICIONE ESTA LINHA (Opcional porque nasce pendente)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("todos")
+}
