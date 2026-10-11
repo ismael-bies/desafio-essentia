@@ -8,7 +8,7 @@ import { Todo } from '../../../shared/models/Todo.js';
 export class TodoService {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:3000/todos';
-
+  
   // State Management moderno com Angular 19 Signals
   public todos = signal<Todo[]>([]);
   public loading = signal<boolean>(false);
