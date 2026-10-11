@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { defineConfig, env } from "prisma/config";
+import { defineConfig } from "prisma/config";
 
 export default defineConfig({
   schema: "prisma/schema.prisma",
@@ -7,6 +7,7 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
-    url: env("DATABASE_URL"),
+    // É aqui que o Prisma 7 passa a ler de forma segura a URL transacional
+    url: process.env['DATABASE_URL'] ?? "mysql://root:root@localhost:3306/desafio-essentia",
   },
 });

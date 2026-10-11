@@ -1,33 +1,28 @@
-generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/client"
+datasource db {
+  provider = "mysql" // Mantém apenas o provedor puro aqui
 }
 
-datasource db {
-  provider = "mysql"
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../src/generated/client"
+  previewFeatures = ["driverAdapters"]
 }
 
 model User {
-  id        String   @id @default(uuid()) // Mantemos o usuário como UUID (padrão de segurança para Auth)
-  email     String   @unique
+  id        String   @id @default(uuid())
   name      String
+  email     String   @unique
   password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
   todos     Todo[]
-
-  @@map("users")
+  createdAt DateTime @default(now())
 }
 
 model Todo {
   id          Int       @id @default(autoincrement())
-  userId      String
   title       String
   completed   Boolean   @default(false)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  completedAt DateTime? // <-- ADICIONE ESTA LINHA (Opcional porque nasce pendente)
+  completedAt DateTime?
+  userId      String
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("todos")
+  createdAt   DateTime  @default(now())
 }
