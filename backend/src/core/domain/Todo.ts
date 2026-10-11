@@ -1,11 +1,11 @@
 export interface TodoProps {
-  id?: number; // <-- GARANTA QUE ESTÁ NUMBER!
+  id?: number;
   userId: string;
   title: string;
   completed: boolean;
   createdAt?: Date;
   updatedAt?: Date;
-  completedAt?: Date | null; // <-- 1. Adicione nas propriedades
+  completedAt?: Date | null;
 }
 
 export class Todo {
@@ -27,7 +27,6 @@ export class Todo {
     };
   }
 
-  // O Getter PRECISA retornar number | undefined
   get id(): number | undefined { 
     return this.props.id; 
   }

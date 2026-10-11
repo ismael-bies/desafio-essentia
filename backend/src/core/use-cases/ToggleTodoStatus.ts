@@ -4,7 +4,6 @@ import type { Todo } from '../domain/Todo.js';
 export class ToggleTodoStatus {
   constructor(private todoRepository: TodoRepository) {}
 
-  //  ALTERADO: id agora é number!
   async execute(id: number): Promise<Todo> {
     const todo = await this.todoRepository.findById(id);
     

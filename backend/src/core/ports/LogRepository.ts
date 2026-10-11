@@ -1,6 +1,6 @@
 export interface ActionLogProps {
   id?: string;
-  userId?: string;     // Opcional, caso a ação seja feita por um visitante não logado
+  userId?: string;
   action: string;      // Ex: "CREATE_TODO", "DELETE_TODO", "LOGIN_SUCCESS"
   resource: string;    // Ex: "todos", "auth"
   details: string;     // Detalhes em texto ou JSON (Ex: "Tarefa ID 123 criada")

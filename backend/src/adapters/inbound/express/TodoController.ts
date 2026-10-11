@@ -30,7 +30,7 @@ export class TodoController {
         title: todo.title,
         completed: todo.completed,
         createdAt: todo.createdAt,
-        completedAt: todo.completedAt // <-- ADICIONADO NO CADASTRO
+        completedAt: todo.completedAt
       });
     } catch (error: any) {
       res.status(400).json({ error: error.message });
@@ -46,7 +46,7 @@ export class TodoController {
         title: todo.title,
         completed: todo.completed,
         createdAt: todo.createdAt,
-        completedAt: todo.completedAt // <-- ADICIONADO NA LISTAGEM (GET ALL)
+        completedAt: todo.completedAt
       }));
 
       res.status(200).json(formattedTodos);
@@ -103,7 +103,7 @@ export class TodoController {
         title: todo.title,
         completed: todo.completed,
         updatedAt: todo.updatedAt,
-        completedAt: todo.completedAt // <-- ADICIONADO NO UPDATE TRADICIONAL
+        completedAt: todo.completedAt
       });
     } catch (error: any) {
       res.status(400).json({ error: error.message });

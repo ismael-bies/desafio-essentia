@@ -16,11 +16,11 @@ export class PrismaTodoRepository implements TodoRepository {
 
     return this.mapToDomain(rawTodo);
   }
-  
+
   async findAllByUserId(userId: string): Promise<Todo[]> {
     const rawTodos = await this.prisma.todo.findMany({
       where: { userId },
-      orderBy: { id: 'asc' } // <-- ALTERADO: Ordenando por ID de forma Crescente (1, 2, 3...)
+      orderBy: { id: 'asc' }
     });
 
     return rawTodos.map(raw => this.mapToDomain(raw));
@@ -45,7 +45,7 @@ export class PrismaTodoRepository implements TodoRepository {
       data: {
         title: todo.title,
         completed: todo.completed,
-        completedAt: todo.completedAt // <-- Adicionado no update do Prisma
+        completedAt: todo.completedAt
       }
     });
 
@@ -65,7 +65,7 @@ export class PrismaTodoRepository implements TodoRepository {
     completed: boolean;
     createdAt: Date;
     updatedAt: Date;
-    completedAt?: Date | null; // <-- Tornamos opcional na entrada do mapeamento com o '?'
+    completedAt?: Date | null;
   }): Todo {
     return new Todo({
       id: raw.id,
@@ -74,7 +74,7 @@ export class PrismaTodoRepository implements TodoRepository {
       completed: raw.completed,
       createdAt: raw.createdAt,
       updatedAt: raw.updatedAt,
-      completedAt: raw.completedAt ?? null // <-- Garante um fallback limpo caso seja indefinido
+      completedAt: raw.completedAt ?? null
     });
   }
 }

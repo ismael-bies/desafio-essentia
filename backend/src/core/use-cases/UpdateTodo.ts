@@ -16,10 +16,8 @@ export class UpdateTodo {
       throw new Error('Tarefa não encontrada!');
     }
 
-    // Aplica a regra de negócio e validação de título do domínio
     todo.updateTitle(input.title);
 
-    // Manda o adaptador do Prisma persistir a alteração no MySQL
     return await this.todoRepository.update(todo);
   }
 }
