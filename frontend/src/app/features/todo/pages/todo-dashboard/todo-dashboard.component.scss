@@ -1,83 +1,140 @@
-.todo-item {
+// ── CONTAINER PRINCIPAL WIDESCREEN (Destrói o formato celular)
+.todo-widescreen-container {
+  width: 100% !important;
+  max-width: 1100px !important; // Ocupa a largura confortável de computadores desktop
+  margin: 1.5rem auto !important;
+  background: #1e293b;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+}
+
+h2 {
+  color: #38bdf8;
+  margin-top: 0;
+  margin-bottom: 2rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+// ── FORMULÁRIO DE ENTRADA ALINHADO
+.todo-input-group {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 2rem;
+  width: 100%;
+
+  input {
+    flex: 1;
+    padding: 0.85rem 1rem;
+    border-radius: 8px;
+    border: 2px solid #475569;
+    background: #0f172a !important;
+    color: #ffffff !important;
+    font-size: 1rem;
+
+    &:focus {
+      outline: none;
+      border-color: #38bdf8;
+    }
+  }
+
+  button {
+    padding: 0.85rem 2rem;
+    background: #0284c7;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background: #0369a1;
+    }
+  }
+}
+
+// ── ELEMENTOS DA TABELA TOTALMENTE EXPANDIDOS
+.todo-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+
+.todo-row-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 1.5rem;
+  background: #111827;
+  border-radius: 10px;
+  border: 1px solid #374151;
+  width: 100%;
+  min-height: 80px; // ── FIXA A ALTURA MÍNIMA: Evita que o card estique ou trema a tela ao concluir
+  box-sizing: border-box;
+}
+
+.todo-item-left-block {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px; // Garante um espaçamento mínimo entre os lados esquerdo e direito
-  padding: 16px 20px;
-  border: 1px solid #edf2f7;
-  border-radius: 8px;
-  background-color: #fff;
-  transition: all 0.2s;
+  gap: 16px;
+
+  input[type="checkbox"] {
+    width: 1.25rem;
+    height: 1.25rem;
+    cursor: pointer;
+    accent-color: #38bdf8;
+  }
+}
+
+// Agrupamento vertical do título com a data de conclusão
+.todo-text-meta-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  min-height: 44px; // Reserva o espaço invisível para a data nascer sem empurrar as bordas
+}
+
+.todo-title-text {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.todo-completed-date {
+  color: #10b981 !important; // Verde esmeralda de sucesso
+  font-size: 0.82rem;
+  font-weight: 600;
+  display: block;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.btn-action-delete {
+  background: none;
+  border: none;
+  color: #f87171;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background 0.2s;
 
   &:hover {
-    border-color: #cbd5e0;
-    transform: translateY(-1px);
+    background: rgba(248, 113, 113, 0.1);
   }
+}
 
-  &.completed {
-    background-color: #f8fafc;
-    .todo-title {
-      text-decoration: line-through;
-      color: #a0aec0;
-    }
-  }
-
-  .todo-left {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex: 1; // Faz o lado esquerdo ocupar todo o espaço disponível, empurrando a lixeira para o canto
-    min-width: 0; // Evita que textos muito longos quebrem o Flexbox
-
-    input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      cursor: pointer;
-      accent-color: #00adb5;
-      flex-shrink: 0; // Impede o checkbox de amassar se o texto for gigante
-    }
-
-    .todo-title {
-      font-size: 1.05rem;
-      font-weight: 500;
-      color: #2d3748;
-      white-space: nowrap; // Impede quebra de linha no meio do texto
-      overflow: hidden; // Esconde o texto que passar do limite
-      text-overflow: ellipsis; // Adiciona os "..." se o texto for maior que a tela
-    }
-  }
-
-  .todo-right {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex-shrink: 0; // Garante que a lixeira e o badge NUNCA vão encolher ou pular de linha
-
-    .completed-badge {
-      font-size: 0.8rem;
-      background-color: #e6fffa;
-      color: #047481;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-weight: 500;
-      white-space: nowrap; // Garante que o texto do badge fique sempre em uma linha só
-    }
-
-    .btn-delete {
-      background: none;
-      border: none;
-      font-size: 1.2rem;
-      cursor: pointer;
-      padding: 4px;
-      border-radius: 4px;
-      transition: background-color 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      &:hover {
-        background-color: #fed7d7;
-      }
-    }
-  }
+.todo-loading, .todo-empty-state {
+  text-align: center;
+  color: #94a3b8;
+  padding: 2rem;
 }

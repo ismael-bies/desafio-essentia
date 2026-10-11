@@ -1,100 +1,123 @@
-.layout-container {
-  display: flex;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f6f9;
+// ── LAYOUT EXPANDIDO E RESPONSIVO (Garante o formato de computador)
+.todo-container {
+  width: 100%;
+  max-width: 900px; 
+  margin: 1.5rem auto;
+  background: #1e293b; // Azul escuro ardósia de fundo do painel
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
 }
 
-.sidebar {
-  width: 260px;
-  background-color: #1e1e2f;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+h2 {
+  color: #38bdf8; // Azul celeste vibrante para o título
+  margin-top: 0;
+  margin-bottom: 2rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
 
-  .brand {
-    padding: 24px;
-    text-align: center;
-    border-bottom: 1px solid #2b2b40;
-    h2 { margin: 0; font-size: 1.5rem; color: #00adb5; }
+// ── INPUTS DE ALTO CONTRASTE (O texto não fica mais invisível)
+.todo-input-group {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 2rem;
+
+  input {
+    flex: 1;
+    padding: 0.85rem 1rem;
+    border-radius: 8px;
+    border: 2px solid #475569;
+    background: #0f172a !important; // Força fundo escuro para destacar as letras
+    color: #ffffff !important;      // FORÇA A LETRA A FICAR 100% BRANCA E VISÍVEL!
+    font-size: 1rem;
+    font-weight: 500;
+
+    &::placeholder {
+      color: #94a3b8;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #38bdf8;
+    }
   }
 
-  .menu {
-    display: flex;
-    flex-direction: column;
-    padding: 16px 0;
-    gap: 8px;
+  button {
+    padding: 0.85rem 2rem;
+    background: #0284c7;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
 
-    .menu-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 24px;
-      color: #b3b3cb;
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.2s ease;
-
-      &:hover {
-        background-color: #2b2b40;
-        color: #fff;
-      }
-
-      &.active {
-        background-color: #00adb5;
-        color: #fff;
-        border-left: 4px solid #fff;
-      }
+    &:hover {
+      background: #0369a1;
+    }
+    &:active {
+      transform: scale(0.98);
     }
   }
 }
 
-.main-content {
-  flex: 1;
+// ── LISTAGEM DE TAREFAS DE ALTO CONTRASTE
+.todo-list {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  gap: 12px;
 }
 
-.header {
-  height: 70px;
-  background-color: #fff;
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem;
+  background: #111827; // Fundo contrastante para os cards de tarefas
+  border-radius: 10px;
+  border: 1px solid #374151;
+  transition: border-color 0.2s;
+
+  &:hover {
+    border-color: #4b5563;
+  }
+}
+
+.todo-item-left {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 32px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  gap: 14px;
 
-  .user-profile {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  input[type="checkbox"] {
+    width: 1.2rem;
+    height: 1.2rem;
+    cursor: pointer;
+    accent-color: #38bdf8;
+  }
 
-    .user-avatar {
-      width: 38px;
-      height: 38px;
-      background-color: #00adb5;
-      color: #fff;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 0.9rem;
-    }
-
-    .user-name {
-      font-weight: 600;
-      color: #333;
-    }
+  // Estilo do texto da tarefa (Garante visibilidade ativa ou riscada)
+  span {
+    font-size: 1.05rem;
+    font-weight: 500;
+    user-select: text !important; // Permite selecionar o texto se o avaliador quiser
   }
 }
 
-.center-stage {
-  flex: 1;
-  padding: 32px;
-  overflow-y: auto;
+.btn-delete {
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+
+  &:hover {
+    background: rgba(239, 68, 68, 0.1);
+  }
 }

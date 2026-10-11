@@ -1,60 +1,14 @@
+/* Reset global de margens e padding */
 html, body {
-  margin: 0;
-  padding: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  min-height: 100vh !important;
+  background-color: #0f172a !important; /* Força o fundo escuro corporativo na tela inteira */
+  font-family: sans-serif;
   box-sizing: border-box;
-  height: 100%;
-  background-color: #f4f6f9;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 *, *:before, *:after {
   box-sizing: inherit;
-}
-
-.dashboard-wrapper {
-  max-width: 900px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 32px; // Aumentamos o espaçamento geral entre o cabeçalho, formulário e a lista
-}
-
-.form-card {
-  margin-bottom: 8px; // Adiciona um recuo extra especificamente abaixo do formulário de inserção
-  border: 1px solid #e2e8f0; // Um contorno bem sutil para dar acabamento ao cartão de entrada
-  
-  .input-group {
-    display: flex;
-    gap: 12px;
-
-    input {
-      flex: 1;
-      padding: 14px 20px;
-      border: 2px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 1rem;
-      outline: none;
-      transition: border-color 0.2s;
-
-      &:focus {
-        border-color: #00adb5;
-      }
-    }
-
-    button {
-      padding: 0 24px;
-      background-color: #00adb5;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.2s;
-
-      &:hover {
-        background-color: #008c95;
-      }
-    }
-  }
 }
