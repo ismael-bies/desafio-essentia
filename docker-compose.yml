@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # Banco de Dados MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: desafio_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: desafio-essentia
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Banco de Dados MongoDB
+  mongodb:
+    image: mongo:6.0
+    container_name: desafio_mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  # Serviço do Backend (Node.js + Express)
+  backend:
+    build: ./backend
+    container_name: desafio_backend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=mysql://root:root@mysql:3306/desafio-essentia
+      - MONGO_URI=mongodb://mongodb:27017/desafio_todo
+      - PORT=3000
+    depends_on:
+      mysql:
+        condition: service_healthy
+      mongodb:
+        condition: service_started
+
+  # Serviço do Frontend (Angular 19)
+  frontend:
+    build: ./frontend
+    container_name: desafio_frontend
+    restart: always
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
+  mongo_data:
