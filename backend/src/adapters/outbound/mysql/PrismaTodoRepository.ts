@@ -1,46 +1,61 @@
-import type { PrismaClient } from '../../../generated/client/index.js';
+import { PrismaClient } from '../../../generated/client/index.js';
+import { TodoRepository } from '../../../core/ports/TodoRepository.js';
 import { Todo } from '../../../core/domain/Todo.js';
-import type { TodoRepository } from '../../../core/ports/TodoRepository.js';
 
 export class PrismaTodoRepository implements TodoRepository {
   constructor(private prisma: PrismaClient) {}
 
-  async create(todo: Todo): Promise<Todo> {
-    const rawTodo = await this.prisma.todo.create({
+  async save(todo: Todo): Promise<Todo> {
+    const createdTodo = await this.prisma.todo.create({
       data: {
-        userId: todo.userId,
         title: todo.title,
-        completed: todo.completed
+        completed: todo.completed,
+        completedAt: todo.completedAt,
+        userId: todo.userId
       }
     });
 
-    return this.mapToDomain(rawTodo);
+    // ── CORREÇÃO DE SINTAXE DE DOMÍNIO: Passamos o objeto estruturado correto
+    return new Todo({
+      id: createdTodo.id,
+      title: createdTodo.title,
+      completed: createdTodo.completed,
+      userId: createdTodo.userId,
+      completedAt: createdTodo.completedAt
+    });
   }
 
   async findAllByUserId(userId: string): Promise<Todo[]> {
-    const rawTodos = await this.prisma.todo.findMany({
+    const todos = await this.prisma.todo.findMany({
       where: { userId },
       orderBy: { id: 'asc' }
     });
 
-    return rawTodos.map(raw => this.mapToDomain(raw));
+    // ── CORREÇÃO DE SINTAXE DE DOMÍNIO NO MAPEAMENTO:
+    return todos.map(t => new Todo({
+      id: t.id,
+      title: t.title,
+      completed: t.completed,
+      userId: t.userId,
+      completedAt: t.completedAt
+    }));
   }
 
   async findById(id: number): Promise<Todo | null> {
-    const rawTodo = await this.prisma.todo.findUnique({
-      where: { id }
-    });
+    const todo = await this.prisma.todo.findUnique({ where: { id } });
+    if (!todo) return null;
 
-    if (!rawTodo) return null;
-    return this.mapToDomain(rawTodo);
+    return new Todo({
+      id: todo.id,
+      title: todo.title,
+      completed: todo.completed,
+      userId: todo.userId,
+      completedAt: todo.completedAt
+    });
   }
 
   async update(todo: Todo): Promise<Todo> {
-    if (todo.id === undefined) {
-      throw new Error('Não é possível atualizar uma tarefa sem um ID válido!');
-    }
-
-    const rawTodo = await this.prisma.todo.update({
+    const updated = await this.prisma.todo.update({
       where: { id: todo.id },
       data: {
         title: todo.title,
@@ -49,32 +64,16 @@ export class PrismaTodoRepository implements TodoRepository {
       }
     });
 
-    return this.mapToDomain(rawTodo);
+    return new Todo({
+      id: updated.id,
+      title: updated.title,
+      completed: updated.completed,
+      userId: updated.userId,
+      completedAt: updated.completedAt
+    });
   }
 
   async delete(id: number): Promise<void> {
-    await this.prisma.todo.delete({
-      where: { id }
-    });
-  }
-
-  private mapToDomain(raw: {
-    id: number;
-    userId: string;
-    title: string;
-    completed: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-    completedAt?: Date | null;
-  }): Todo {
-    return new Todo({
-      id: raw.id,
-      userId: raw.userId,
-      title: raw.title,
-      completed: raw.completed,
-      createdAt: raw.createdAt,
-      updatedAt: raw.updatedAt,
-      completedAt: raw.completedAt ?? null
-    });
+    await this.prisma.todo.delete({ where: { id } });
   }
 }

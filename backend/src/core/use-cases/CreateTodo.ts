@@ -9,13 +9,12 @@ interface CreateTodoInput {
 export class CreateTodo {
   constructor(private todoRepository: TodoRepository) {}
 
-  async execute(input: CreateTodoInput): Promise<Todo> {
+  async execute(title: string, userId: string): Promise<Todo> {
     const todo = new Todo({
-      userId: input.userId,
-      title: input.title,
+      title,
+      userId,
       completed: false
     });
-
     return await this.todoRepository.create(todo);
   }
 }
