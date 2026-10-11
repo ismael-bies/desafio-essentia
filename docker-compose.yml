@@ -1,7 +1,5 @@
-version: '3.8'
-
 services:
-  # Banco de Dados MySQL
+  # Banco de Dados MySQL Oficial
   mysql:
     image: mysql:8.0
     container_name: desafio_mysql
@@ -10,7 +8,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: desafio-essentia
     ports:
-      - "3307:3306"
+      - "3306:3306" # Mapeado direto na porta padrão física do Windows
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
@@ -19,7 +17,7 @@ services:
       timeout: 5s
       retries: 5
 
-  # Banco de Dados MongoDB
+  # Banco de Dados MongoDB Oficial (Desafio Opcional de Logs)
   mongodb:
     image: mongo:6.0
     container_name: desafio_mongodb
@@ -29,7 +27,7 @@ services:
     volumes:
       - mongo_data:/data/db
 
-  # Serviço do Backend (Node.js + Express)
+  # Serviço do Backend (Node.js + Express) - ADICIONADO REATIVO!
   backend:
     build: ./backend
     container_name: desafio_backend
@@ -37,24 +35,15 @@ services:
     ports:
       - "3000:3000"
     environment:
+      # Padrão Docker: o host vira o nome do serviço interno do compose (@mysql e @mongodb)
       - DATABASE_URL=mysql://root:root@mysql:3306/desafio-essentia
       - MONGO_URI=mongodb://mongodb:27017/desafio_todo
       - PORT=3000
     depends_on:
       mysql:
-        condition: service_healthy
+        condition: service_healthy # Só liga o Express quando o MySQL der o sinal verde de saúde
       mongodb:
         condition: service_started
-
-  # Serviço do Frontend (Angular 19)
-  frontend:
-    build: ./frontend
-    container_name: desafio_frontend
-    restart: always
-    ports:
-      - "4200:4200"
-    depends_on:
-      - backend
 
 volumes:
   mysql_data:
