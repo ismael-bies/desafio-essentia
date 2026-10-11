@@ -1,0 +1,61 @@
+<div class="dashboard-wrapper">
+  <div class="page-header">
+    <h1>Minhas Tarefas</h1>
+    <p>Gerencie seus afazeres diários com persistência no MySQL</p>
+  </div>
+
+  <!-- Formulário de Criação -->
+  <div class="card form-card">
+    <div class="input-group">
+      <input 
+        type="text" 
+        #taskInput
+        placeholder="O que você precisa fazer hoje?" 
+        (keyup.enter)="addTodo(taskInput)"
+      />
+      <button (click)="addTodo(taskInput)">Adicionar ➕</button>
+    </div>
+  </div>
+
+  <!-- Estado de Carregamento (Reactive Signal) -->
+  @if (todoService.loading()) {
+    <div class="loading-state">
+      <p>Buscando dados no MySQL...</p>
+    </div>
+  } @else {
+    <!-- Lista de Tarefas -->
+    <div class="card list-card">
+      @if (todoService.todos().length === 0) {
+        <div class="empty-state">
+          <p>Nenhuma tarefa encontrada. Digite algo acima para começar! 🚀</p>
+        </div>
+      } @else {
+        <div class="todo-list">
+          @for (todo of todoService.todos(); track todo.id) {
+            <div class="todo-item" [class.completed]="todo.completed">
+              <div class="todo-left">
+                <input 
+                  type="checkbox" 
+                  [checked]="todo.completed" 
+                  (change)="todoService.toggleStatus(todo.id)"
+                />
+                <span class="todo-title">{{ todo.title }}</span>
+              </div>
+              
+              <div class="todo-right">
+                @if (todo.completed && todo.completedAt) {
+                  <span class="completed-badge">
+                    Concluído em: {{ todo.completedAt | date: 'dd/MM/yyyy HH:mm' }}
+                  </span>
+                }
+                <button class="btn-delete" (click)="todoService.deleteTodo(todo.id)">
+                  🗑️
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

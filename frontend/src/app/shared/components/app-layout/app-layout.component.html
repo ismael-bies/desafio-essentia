@@ -1,0 +1,38 @@
+<div class="layout-container">
+  <!-- Menu Lateral (Sidebar) -->
+  <aside class="sidebar">
+    <div class="brand">
+      <h2>Essentia App</h2>
+    </div>
+    
+    <nav class="menu">
+      <a routerLink="/todos" routerLinkActive="active" class="menu-item">
+        <span>📋</span> To-Do List
+      </a>
+      <a routerLink="/users" routerLinkActive="active" class="menu-item">
+        <span>👤</span> Usuários
+      </a>
+      <a routerLink="/metrics" routerLinkActive="active" class="menu-item">
+        <span>📊</span> Métricas
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Área Principal (Header + Conteúdo Central) -->
+  <div class="main-content">
+    <header class="header">
+      <div class="page-title">
+        <!-- Opcional: Título dinâmico da página atual -->
+      </div>
+      <div class="user-profile">
+        <span class="user-avatar">AD</span>
+        <span class="user-name">Admin do Desafio</span>
+      </div>
+    </header>
+
+    <!-- O Conteúdo Central das Telas entra AQUI dinamicamente -->
+    <main class="center-stage">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
