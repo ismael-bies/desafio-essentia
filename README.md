@@ -33,7 +33,7 @@ Para rodar este ecossistema híbrido, abra o seu terminal na raiz global do proj
 # 1. Iniciar prioritariamente os contêineres de bancos de dados em segundo plano
 docker compose up -d mysql mongodb
 
-# 2. Aguarde 10 segundos para os bancos estabilizarem. Agora, levante o servidor backend:
+# 2. Aguarde 20 segundos para os bancos estabilizarem os arquivos físicos. Agora, levante o servidor backend:
 docker compose up -d
 
 # 3. Executar a sincronização física das tabelas do Prisma no MySQL do Docker
