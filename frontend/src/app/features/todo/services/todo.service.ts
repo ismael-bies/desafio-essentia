@@ -43,4 +43,12 @@ export class TodoService {
       error: (err) => console.error('Erro ao deletar tarefa:', err)
     });
   }
+
+    public updateTodo(id: number, title: string): void {
+    // O jwtInterceptor injeta o Token JWT automaticamente no cabeçalho
+    this.http.put<Todo>(`${this.apiUrl}/${id}`, { title }).subscribe({
+      next: () => this.fetchTodos(),
+      error: (err) => console.error('Erro ao atualizar título da tarefa:', err)
+    });
+  }
 }

@@ -46,10 +46,15 @@ import { AppLayoutComponent } from '../../../../shared/components/app-layout/app
                 </small>
               </div>
             </div>
-            
-            <button class="btn-action-delete" (click)="todoService.deleteTodo($any(todo).props?.id ?? $any(todo).id)">
-              🗑️ Deletar Registro
-            </button>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span (click)="editTodo(($any(todo).props?.id ?? $any(todo).id), ($any(todo).props?.title ?? $any(todo).title))" 
+                    style="cursor: pointer; font-size: 1.1rem; padding: 4px;" class="btn-action-delete" 
+                    title="Editar tarefa">✏️</span>
+              <button class="btn-action-delete" (click)="todoService.deleteTodo($any(todo).props?.id ?? $any(todo).id)" title="Deletar tarefa">
+                🗑️
+              </button>
+
+            </div>
           </div>
 
           <!-- Empty State Sênior -->
@@ -80,5 +85,17 @@ export class TodoDashboardComponent implements OnInit {
     this.todoService.createTodo(title.trim());
 
     input.value = '';
+  }
+
+  public editTodo(id: number, currentTitle: string): void {
+  const newTitle = prompt('Editar o título da tarefa corporativa:', currentTitle);
+  
+  // Se o usuário cancelou ou deixou o texto em branco, interrompe o fluxo
+  if (newTitle === null || newTitle.trim() === '') {
+    return;
+  }
+
+  // Dispara o método do serviço que atualiza o banco de dados
+  this.todoService.updateTodo(id, newTitle.trim());
   }
 }
