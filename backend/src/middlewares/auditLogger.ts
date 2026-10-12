@@ -1,11 +1,10 @@
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import { ActionLogModel } from '../adapters/outbound/mongo/ActionLogModel.js';
 
 export function auditLogger(req: Request, res: Response, next: NextFunction): void {
   const method = req.method;
   const path = req.path;
 
-  // Ignora listagens (GET) para não poluir o MongoDB com ruído
   if (method === 'GET') {
     return next();
   }

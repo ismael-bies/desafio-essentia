@@ -6,7 +6,7 @@
     "outDir": "./dist",
 
     // Environment Settings
-    "module": "NodeNext",
+    "module": "CommonJS",
     "moduleResolution": "NodeNext",
     "target": "ES2022",
 
@@ -20,13 +20,19 @@
     "exactOptionalPropertyTypes": true,
 
     // Recommended Options
-    "strict": true,
+    "strict": false,
     "esModuleInterop": true,
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
-  }
+    "forceConsistentCasingInFileNames": true,
+  },
+    "exclude": [
+    "node_modules",
+    "dist",
+    "prisma.config.ts",
+    "prisma"
+  ]
 }

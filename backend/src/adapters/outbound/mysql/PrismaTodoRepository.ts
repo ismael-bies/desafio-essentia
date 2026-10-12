@@ -1,16 +1,18 @@
 import { PrismaClient } from '../../../generated/client/index.js';
-import { TodoRepository } from '../../../core/ports/TodoRepository.js';
+import type { TodoRepository } from '../../../core/ports/TodoRepository.js';
 import { Todo } from '../../../core/domain/Todo.js';
 
 export class PrismaTodoRepository implements TodoRepository {
   constructor(private prisma: PrismaClient) {}
 
-  async save(todo: Todo): Promise<Todo> {
+  async create(todo: Todo): Promise<Todo> {
+    const completedAtValue = todo.completedAt instanceof Date ? todo.completedAt : null;
+
     const createdTodo = await this.prisma.todo.create({
       data: {
         title: todo.title,
         completed: todo.completed,
-        completedAt: todo.completedAt,
+        completedAt: completedAtValue,
         userId: todo.userId
       }
     });
@@ -53,12 +55,20 @@ export class PrismaTodoRepository implements TodoRepository {
   }
 
   async update(todo: Todo): Promise<Todo> {
+    // Garante que o ID existe e joga para uma variável local de tipo numérico puro (sem undefined)
+    const todoId = todo.id;
+    if (todoId === undefined || todoId === null) {
+      throw new Error('Não é possível atualizar uma tarefa sem um ID válido.');
+    }
+
+    const completedAtValue = todo.completedAt instanceof Date ? todo.completedAt : null;
+
     const updated = await this.prisma.todo.update({
-      where: { id: todo.id },
+      where: { id: todoId }, // Chave numérica pura mapeada com sucesso
       data: {
         title: todo.title,
         completed: todo.completed,
-        completedAt: todo.completedAt
+        completedAt: completedAtValue
       }
     });
 
@@ -67,7 +77,7 @@ export class PrismaTodoRepository implements TodoRepository {
       title: updated.title,
       completed: updated.completed,
       userId: updated.userId,
-      completedAt: updated.completedAt
+      completedAt: updated.completedAt ?? null
     });
   }
 

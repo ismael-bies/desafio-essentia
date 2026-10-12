@@ -15,7 +15,8 @@ import { DeleteTodo } from './core/use-cases/DeleteTodo.js';
 import { UpdateTodo } from './core/use-cases/UpdateTodo.js';
 import { TodoController } from './adapters/inbound/express/TodoController.js';
 import { auditLogger } from './middlewares/auditLogger.js';
-import { authGuard, AuthenticatedRequest } from './middlewares/authGuard.js';
+import { authGuard } from './middlewares/authGuard.js';
+import type { AuthenticatedRequest } from './middlewares/authGuard.js';
 
 dotenv.config();
 
@@ -48,8 +49,6 @@ app.use(auditLogger);
 // 🔐 ROTAS DE AUTENTICAÇÃO (JWT & BCRYPT)
 // ==========================================
 
-// Remova a linha "import crypto from 'crypto';" se ela estiver no topo
-
 app.post('/auth/register', async (req, res) => {
   const { name, email, password } = req.body;
   try {
@@ -62,7 +61,6 @@ app.post('/auth/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     
     // ── CONFIGURAÇÃO DE SEGURANÇA MÁXIMA PARA DOCKER ESM:
-    // Chamamos a função global da API do Node para evitar erros de importação e quebra de módulo
     const userUuid = globalThis.crypto.randomUUID();
 
     const newUser = await prisma.user.create({
@@ -120,7 +118,6 @@ const todoController = new TodoController(createTodo, getTodos, toggleTodoStatus
 
 app.post('/todos', authGuard, async (req: AuthenticatedRequest, res) => {
   try {
-    // ── INTERCEPTOR INTELIGENTE DE CORPO: Captura 'title', 'name' ou o próprio corpo como string
     const title = req.body.title || req.body.name || (typeof req.body === 'string' ? req.body : null);
     const userId = req.userId;
 

@@ -18,12 +18,14 @@ export class TodoController {
 
   public create = async (req: Request, res: Response): Promise<void> => {
     try {
-      const { title } = req.body;
+      const { title, userId } = req.body;
+
+      if (!title) {
+        res.status(400).json({ error: 'O título é obrigatório.' });
+        return;
+      }
       
-      const todo = await this.createTodo.execute({
-        userId: this.MOCK_USER_ID,
-        title
-      });
+      const todo = await this.createTodo.execute(title, userId);
 
       res.status(201).json({
         id: todo.id,
