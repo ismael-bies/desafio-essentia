@@ -23,22 +23,27 @@ Certifique-se de ter instalado em sua máquina física:
 
 ---
 
-### 🚀 Como Executar o Ecossistema Completo
+### 🚀 Como Executar o Ecossistema
 
-Abra o seu terminal na raiz global do projeto e execute os comandos abaixo para inicializar o ecossistema completo de contêineres:
+Para rodar este ecossistema híbrido, abra o seu terminal na raiz global do projeto e execute a sequência abaixo. 
+
+*Nota de Infraestrutura: Bancos de dados relacionais em primeira execução podem exceder o tempo limite padrão de boot do Docker Compose enquanto criam seus arquivos físicos de disco. Para garantir uma inicialização fluida e livre de timeouts, siga a ordem recomendada:*
 
 ```bash
-# 1. Inicializar os contêineres de bancos de dados e o servidor backend
-docker compose up -d --build
+# 1. Iniciar prioritariamente os contêineres de bancos de dados em segundo plano
+docker compose up -d mysql mongodb
 
-# 2. Executar a sincronização física das tabelas do Prisma no MySQL do Docker
+# 2. Aguarde 10 segundos para os bancos estabilizarem. Agora, levante o servidor backend:
+docker compose up -d
+
+# 3. Executar a sincronização física das tabelas do Prisma no MySQL do Docker
 docker compose run --rm backend npx prisma db push
 ```
 
-A API e os bancos estarão totalmente operacionais. Agora, inicialize o servidor do front-end:
+Agora, abra um novo terminal na pasta do frontend para ligar a interface reativa:
 
 ```bash
-# 3. Acesse a pasta do frontend e inicie a interface do Angular
+# 4. Acessar a pasta do cliente, instalar as dependências locais e rodar o Angular
 cd frontend
 npm install
 npx ng serve
