@@ -15,7 +15,6 @@ export class PrismaTodoRepository implements TodoRepository {
       }
     });
 
-    // ── CORREÇÃO DE SINTAXE DE DOMÍNIO: Passamos o objeto estruturado correto
     return new Todo({
       id: createdTodo.id,
       title: createdTodo.title,
@@ -31,7 +30,6 @@ export class PrismaTodoRepository implements TodoRepository {
       orderBy: { id: 'asc' }
     });
 
-    // ── CORREÇÃO DE SINTAXE DE DOMÍNIO NO MAPEAMENTO:
     return todos.map(t => new Todo({
       id: t.id,
       title: t.title,
