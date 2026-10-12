@@ -17,9 +17,9 @@ Este projeto consiste em uma aplicação moderna de gerenciamento de tarefas (To
 
 ### 📦 Pré-requisitos para Execução
 
-Certifique-se de ter instalado em sua máquina física:
-*   [Docker](https://docker.com) (com Docker Compose ativo)
-*   [MongoDB Compass](https://mongodb.com) (opcional, para visualização de relatórios analíticos)
+Para rodar este ecossistema híbrido, certifique-se de ter instalado em sua máquina física:
+*   [Docker & Docker Compose](https://docker.com) (obrigatório para orquestrar os contêineres dos bancos de dados e do backend).
+*   [Node.js (v20+) & NPM](https://nodejs.org) (obrigatório para inicializar, compilar e rodar a interface do Angular localmente na máquina host).
 
 ---
 
